@@ -25,3 +25,8 @@ Once the app is downloaded and installed, running tests is simple:
 ```bash
 npm run test
 ```
+
+This runs the test in "watch" mode. Press Ctrl+C to cancel.
+
+If the response in the terminal says, "No tests found to file changed since last commit,"
+press 'a' to test everything.
