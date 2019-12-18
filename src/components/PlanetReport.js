@@ -72,6 +72,31 @@ class PlanetReport extends Component {
               )}
             </div>
             <PlanetDiscoveryTimeline exoplanets={this.state.exoplanets} />
+            <div className="card">
+              <div className="card-body p-2">
+                <small className="text-muted">
+                  Sources:
+                  <ul className="mb-1">
+                    <li>
+                      <a
+                        href="https://gist.githubusercontent.com/joelbirchler/66cf8045fcbb6515557347c05d789b4a/raw/9a196385b44d4288431eef74896c0512bad3defe/exoplanets"
+                        className="text-muted"
+                      >
+                        Data
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="https://www.kaggle.com/mrisdal/open-exoplanet-catalogue"
+                        className="text-muted"
+                      >
+                        Documentation
+                      </a>
+                    </li>
+                  </ul>
+                </small>
+              </div>
+            </div>
           </div>
         ) : (
           <div className="alert alert-info">
