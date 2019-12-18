@@ -1,4 +1,5 @@
 import filter from "lodash/filter";
+import groupBy from "lodash/groupBy";
 import maxBy from "lodash/maxBy";
 import http from "../utils/http";
 
@@ -44,4 +45,42 @@ function getMaxStarKelvins(exoplanets) {
 export function getExoplanetsForHottestStar(exoplanets) {
   const maxK = getMaxStarKelvins(exoplanets);
   return filter(exoplanets, p => p.HostStarTempK === maxK);
+}
+
+/**
+ * @function groupExoplanetDiscoveriesByYear
+ * @public
+ * @param {Array} exoplanets
+ * @returns {Object}
+ */
+export function groupExoplanetDiscoveriesByYear(exoplanets) {
+  return groupBy(exoplanets, "DiscoveryYear");
+}
+
+/**
+ * @function groupExoplanetsBySize
+ * @private
+ * @param {Array} exoplanets
+ * @returns {Object}
+ */
+export function groupExoplanetsBySize(exoplanets) {
+  return groupBy(exoplanets, groupExoplanetsBySizeIteratee);
+}
+
+/**
+ * @function groupExoplanetsBySizeIteratee
+ * @private
+ * @param {Object} exoplanet
+ * @returns {string}
+ */
+function groupExoplanetsBySizeIteratee(exoplanet) {
+  if (!exoplanet.RadiusJpt) {
+    return "other";
+  } else if (exoplanet.RadiusJpt < 1) {
+    return "small";
+  } else if (exoplanet.RadiusJpt < 2) {
+    return "medium";
+  } else {
+    return "large";
+  }
 }

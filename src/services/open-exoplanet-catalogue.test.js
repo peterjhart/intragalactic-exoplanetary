@@ -2,7 +2,9 @@ import http from "../utils/http";
 import {
   getExoplanets,
   getOrphanExoplanets,
-  getExoplanetsForHottestStar
+  getExoplanetsForHottestStar,
+  groupExoplanetDiscoveriesByYear,
+  groupExoplanetsBySize
 } from "./open-exoplanet-catalogue";
 
 jest.mock("../utils/http");
@@ -152,6 +154,32 @@ describe("open-exoplanet-catalogue service", () => {
         HostStarMetallicity: "",
         HostStarTempK: 6002,
         HostStarAgeGyr: ""
+      },
+      {
+        PlanetIdentifier: "CT Cha B",
+        TypeFlag: 0,
+        PlanetaryMassJpt: "",
+        RadiusJpt: 2.4,
+        PeriodDays: "",
+        SemiMajorAxisAU: "",
+        Eccentricity: "",
+        PeriastronDeg: "",
+        LongitudeDeg: "",
+        AscendingNodeDeg: "",
+        InclinationDeg: "",
+        SurfaceTempK: 2500,
+        AgeGyr: "",
+        DiscoveryMethod: "imaging",
+        DiscoveryYear: 2008,
+        LastUpdated: "15/06/08",
+        RightAscension: "11 04 09",
+        Declination: "-76 27 19",
+        DistFromSunParsec: 165,
+        HostStarMassSlrMass: "",
+        HostStarRadiusSlrRad: "",
+        HostStarMetallicity: "",
+        HostStarTempK: 5150,
+        HostStarAgeGyr: ""
       }
     ];
 
@@ -169,6 +197,28 @@ describe("open-exoplanet-catalogue service", () => {
       const ids = result.map(r => r.PlanetIdentifier);
       const expectedIds = ["Kepler-291 b", "Kepler-291 c"];
       expect(ids).toEqual(expect.arrayContaining(expectedIds));
+    });
+
+    it("should group planets by the year they were discovered", () => {
+      const result = groupExoplanetDiscoveriesByYear(exoplanets);
+      const expectedYears = ["2008", "2012", "2013", "2014"];
+      expect(Object.keys(result)).toEqual(expectedYears);
+      expect(result["2008"].length).toEqual(2);
+      expect(result["2012"].length).toEqual(1);
+      expect(result["2013"].length).toEqual(1);
+      expect(result["2014"].length).toEqual(2);
+    });
+
+    it("should group planets by size", () => {
+      const result = groupExoplanetsBySize(exoplanets);
+      const expectedSizes = ["other", "small", "medium", "large"];
+      const sizes = Object.keys(result);
+      expect(sizes.length).toEqual(4);
+      expect(sizes).toEqual(expect.arrayContaining(expectedSizes));
+      expect(result.other.length).toEqual(2);
+      expect(result.small.length).toEqual(2);
+      expect(result.medium.length).toEqual(1);
+      expect(result.large.length).toEqual(1);
     });
   });
 });
