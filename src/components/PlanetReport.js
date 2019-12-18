@@ -5,6 +5,7 @@ import {
   getOrphanExoplanets,
   getExoplanetsForHottestStar
 } from "../services/open-exoplanet-catalogue";
+import PlanetDiscoveryTimeline from "./PlanetDiscoveryTimeline";
 
 class PlanetReport extends Component {
   constructor(props) {
@@ -43,31 +44,34 @@ class PlanetReport extends Component {
         <h1 className="text-center">Planetary Report</h1>
         {this.state.loaded ? (
           <div>
-            <p>
-              There
-              {this.state.count === 1
-                ? " is one exoplanet "
-                : ` are ${this.state.count} exoplanets `}
-              currently known to science.
-            </p>
-
-            <p>
-              {this.state.orphanExoplanetCount === 1
-                ? "One planet "
-                : `${this.state.orphanExoplanetCount} planets `}
-              do not have a star to call their own.
-            </p>
-
-            {this.state.exoplanetsOfHottestStar.length && (
+            <div className="mb-5">
               <p>
-                {this.state.exoplanetNamesOfHottestStar}
-                {this.state.exoplanetsOfHottestStar.length === 1
-                  ? " orbits "
-                  : " orbit "}
-                the hottest known star to host exoplanets, at a scorching{" "}
-                {this.state.exoplanetsOfHottestStar[0].HostStarTempK} kelvins.
+                There
+                {this.state.count === 1
+                  ? " is one exoplanet "
+                  : ` are ${this.state.count} exoplanets `}
+                currently known to science.
               </p>
-            )}
+
+              <p>
+                {this.state.orphanExoplanetCount === 1
+                  ? "One planet "
+                  : `${this.state.orphanExoplanetCount} planets `}
+                do not have a star to call their own.
+              </p>
+
+              {this.state.exoplanetsOfHottestStar.length && (
+                <p>
+                  {this.state.exoplanetNamesOfHottestStar}
+                  {this.state.exoplanetsOfHottestStar.length === 1
+                    ? " orbits "
+                    : " orbit "}
+                  the hottest known star to host exoplanets, at a scorching{" "}
+                  {this.state.exoplanetsOfHottestStar[0].HostStarTempK} kelvins.
+                </p>
+              )}
+            </div>
+            <PlanetDiscoveryTimeline exoplanets={this.state.exoplanets} />
           </div>
         ) : (
           <div className="alert alert-info">
